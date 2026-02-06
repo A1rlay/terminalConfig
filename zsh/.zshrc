@@ -1,48 +1,43 @@
-##### ── Zsh minimal + Starship (one-line) ─────────────────────────
-
-# Historial y calidad de vida
-HISTFILE=~/.zsh_history
-HISTSIZE=50000
-SAVEHIST=50000
-setopt HIST_IGNORE_DUPS HIST_FIND_NO_DUPS SHARE_HISTORY
-setopt AUTO_CD AUTO_PUSHD PUSHD_IGNORE_DUPS
-setopt NO_BEEP
-
-# Autocompletado
-autoload -Uz compinit && compinit -u
-zmodload zsh/complist
-WORDCHARS=${WORDCHARS//\/}
-
-# Plugins sueltos (si los tienes)
-# zsh-autosuggestions
-[ -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ] && \
-  source "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" && \
-  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-
-# zsh-syntax-highlighting (siempre después de compinit)
-[ -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ] && \
-  source "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
-# Aliases
-alias ll='eza -lah --git --icons=auto --group-directories-first 2>/dev/null || ls -lah'
-alias lt='eza -T --git-ignore --icons=auto -L 2 2>/dev/null || tree -L 2'
-alias cat='batcat --paging=never 2>/dev/null || cat'
-
-# Integraciones (si existen)
-command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
-command -v direnv  >/dev/null 2>&1 && eval "$(direnv hook zsh)"
-
-# === Starship al final, y solo si está disponible ===
-if command -v starship >/dev/null 2>&1; then
-  eval "$(starship init zsh)"
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME=""
-plugins=(git)
-source "$ZSH/oh-my-zsh.sh"
-alias ll="eza -lah --git --group-directories-first"
-alias lt="eza -T --git-ignore -L 2"
-export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+plugins=(
+  git
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  zsh-history-substring-search
+  zsh-completions
+)
+
+source $ZSH/oh-my-zsh.sh
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+
+# Autocompletado y menú
+autoload -U compinit && compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 'r:|[._-]=* r:|=*'
+
+# Para que zsh-completions funcione al 100%
+fpath+=("$HOME/.oh-my-zsh/custom/plugins/zsh-completions/src")
+
+# Autosugerencias (gris tenue) y teclas
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#75715e'
+bindkey '^F' autosuggest-accept
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^[OA' history-substring-search-up
+bindkey '^[OB' history-substring-search-down
+
+eval "$(zoxide init zsh)"
+
+# export LS_COLORS="$(vivid generate one-dark)"
+export LS_COLORS="$(vivid generate molokai)"
