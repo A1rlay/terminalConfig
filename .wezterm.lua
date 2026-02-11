@@ -56,7 +56,7 @@ end)
 -- tmux status
 wezterm.on("update-right-status", function(window, _)
 	local SOLID_LEFT_ARROW = ""
-	local ARROW_FOREGROUND = { Foreground = { Color = "#A6E22E" } }
+	local ARROW_FOREGROUND = { Foreground = { Color = c.green } }
 	local prefix = ""
 	local shrimp_fg = c.green
 
@@ -85,7 +85,7 @@ config = {
 	color_scheme = "Monokai Remastered",
 	-- Font
 	font = wezterm.font_with_fallback({
-		{ family = "MonaspiceNe Nerd Font" },
+		{ family = "Iosevka Nerd Font" },
 		{ family = "Symbols Nerd Font Mono" },
 		{ family = "Segoe UI Emoji" },
 	}),
@@ -93,7 +93,7 @@ config = {
 		{
 			italic = true,
 			font = wezterm.font_with_fallback({
-				{ family = "MonaspiceNe Nerd Font", italic = true },
+				{ family = "Iosevka Nerd Font", italic = true },
 				{ family = "Symbols Nerd Font Mono" },
 				{ family = "Segoe UI Emoji" },
 			}),
@@ -102,7 +102,7 @@ config = {
 		{
 			intensity = "Bold",
 			font = wezterm.font_with_fallback({
-				{ family = "MonaspiceNe Nerd Font", weight = "Bold" },
+				{ family = "Iosevka Nerd Font", weight = "Bold" },
 				{ family = "Symbols Nerd Font Mono" },
 				{ family = "Segoe UI Emoji" },
 			}),
@@ -112,7 +112,7 @@ config = {
 			intensity = "Bold",
 			italic = true,
 			font = wezterm.font_with_fallback({
-				{ family = "MonaspiceNe Nerd Font", weight = "Bold", italic = true },
+				{ family = "Iosevka Nerd Font", weight = "Bold", italic = true },
 				{ family = "Symbols Nerd Font Mono" },
 				{ family = "Segoe UI Emoji" },
 			}),
@@ -120,7 +120,7 @@ config = {
 	},
 	font_size = 14,
 	line_height = 1.1,
-	cell_width = 0.93,
+	cell_width = 1,
 	-- Render
 	front_end = "OpenGL",
 	webgpu_power_preference = "HighPerformance",
@@ -133,17 +133,19 @@ config = {
 	use_fancy_tab_bar = true,
 	window_decorations = "RESIZE",
 	-- Transparency
-	window_background_opacity = 0.9,
+	window_background_opacity = 0,
 	text_background_opacity = 0.75,
 	win32_system_backdrop = "Tabbed",
 	-- Never Prompt
 	window_close_confirmation = "NeverPrompt",
 	-- Frame
 	window_frame = {
-		active_titlebar_bg = mono().bg,
-		active_titlebar_fg = mono().fg,
-		font = wezterm.font("FiraCode Nerd Font Mono"),
-		font_size = 11,
+		active_titlebar_bg = c.bg,
+		active_titlebar_fg = c.fg,
+		inactive_titlebar_bg = c.bg,
+		inactive_titlebar_fg = c.fg,
+		font = wezterm.font("Iosevka Nerd Font"),
+		font_size = 10,
 	},
 	-- Default Domain
 	default_domain = "WSL:Ubuntu-24.04",
