@@ -180,10 +180,10 @@ config = {
 	},
 	-- Padding
 	window_padding = {
-		left = 15,
+		left = 5,
 		right = 5,
 		top = 5,
-		bottom = 0,
+		bottom = 5,
 	},
 	-- tmux
 	leader = { key = "q", mods = "ALT", timeout_milliseconds = 2000 },
